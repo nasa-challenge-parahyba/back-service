@@ -2,13 +2,17 @@ from fastapi import APIRouter
 import requests
 import os
 from dotenv import load_dotenv
+import folium
+import folium.plugins
+from folium import Map, TileLayer
+from fastapi.responses import HTMLResponse
 
 load_dotenv()
 router = APIRouter()
 
 STAC_API_URL = os.getenv("STAC_API_URL")
 
-async def get_item_count(collection_id):
+def get_item_count(collection_id):
     count = 0
     items_url = f"{STAC_API_URL}/collections/{collection_id}/items"
 
@@ -29,7 +33,7 @@ async def get_item_count(collection_id):
 
     return count
 
-@router.get('/co2-concentrations')
+@router.get('/co2-concentrations', response_class=HTMLResponse)
 async def get_map_co2_concentrations(): 
     raster_api_url = os.getenv("RASTER_API_URL")
     collection_id = os.getenv("COLLECTION_CO2_CONCENTRATIONS")
@@ -52,5 +56,16 @@ async def get_map_co2_concentrations():
         f"&color_formula=gamma+r+1.05&colormap_name={color_map}"
         f"&rescale={rescale_values['min']},{rescale_values['max']}", 
 ).json()
-    
-    return oco2
+
+    # Create the map with a single layer
+    map_co2 = Map(location=(34, -118), zoom_start=6)
+
+    map_layer = TileLayer(
+        tiles=oco2["tiles"][0],
+        attr="GHG",
+        opacity=0.5,
+    )
+    map_layer.add_to(map_co2)
+
+    # Return the map as HTML
+    return map_co2._repr_html_()

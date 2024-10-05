@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.api.v1.endpoints import co2_concentrations
+from src.api.v1.endpoints import maps
 
-api_router = APIRouter(prefix="/maps")
-api_router.include_router(co2_concentrations.router, prefix='/co2-concentration')
+api_router = APIRouter(prefix="/api/v1")
+api_router.include_router(maps.router, prefix='/maps')

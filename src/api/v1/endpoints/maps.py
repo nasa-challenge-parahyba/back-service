@@ -33,7 +33,7 @@ async def get_map_co2_concentrations():
         f"&rescale={rescale_values['min']},{rescale_values['max']}", 
     ).json()
 
-    map_co2 = Map(location=(34, -118), zoom_start=2)
+    map_co2 = Map(location=(34, -118), zoom_start=2, control_scale=True, width="70vw", height="70vh")
 
     map_layer = TileLayer(
         tiles=oco2["tiles"][0],
@@ -70,7 +70,7 @@ async def get_map_fossil_fuel_emissions():
 
         f"&rescale={rescale_values['min']},{rescale_values['max']}", ).json()
     
-    map = Map(location=(34, -118), zoom_start=2)
+    map = Map(location=(54, -118), zoom_start=2, control_scale=True, width="70vw", height="70vh")
 
     map_layer_2020 = TileLayer(
         tiles=january_2020_tile["tiles"][0],
@@ -111,7 +111,7 @@ async def get_map_methane_emissions(type_methane_emission: str):
         f"&color_formula=gamma+r+1.05&colormap_name={color_map}"
         f"&rescale={rescale_values['min']},{rescale_values['max']}").json()
     
-    map = Map(location=(34, -118), zoom_start=2)
+    map = Map(location=(34, -118), zoom_start=2, control_scale=True, width="70vw", height="70vh")
 
     map_layer_2016 = TileLayer(
         tiles=ch4_flux["tiles"][0],

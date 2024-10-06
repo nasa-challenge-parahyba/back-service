@@ -2,7 +2,6 @@ from fastapi import APIRouter
 import requests
 import os
 from dotenv import load_dotenv
-import folium.plugins
 from folium import Map, TileLayer
 from fastapi.responses import HTMLResponse
 from src.utils.get_item_count import get_item_count

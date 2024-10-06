@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi-backend
+    volumes:
+      - .:/app  # Monta o diretório do projeto no container
+    ports:
+      - "8000:80"  # Mapeia a porta 8000 do host para a porta 80 no container
+    environment:
+      - MODULE_NAME=app  # Aponta para o arquivo app.py que está fora da pasta src
+      - PORT=80  # Porta usada pelo FastAPI no container
+      - STAC_API_URL=https://earth.gov/ghgcenter/api/stac
+      - RASTER_API_URL=https://earth.gov/ghgcenter/api/raster
+      - COLLECTION_CO2_CONCENTRATIONS=oco2geos-co2-daygrid-v10r
+      - COLLECTION_FOSSIL_FUEL_EMISSION=odiac-ffco2-monthgrid-v2023
+      - COLLECTION_METHANE_EMISSION=tm54dvar-ch4flux-mask-monthgrid-v1
+    restart: always
